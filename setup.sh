@@ -9,10 +9,10 @@ NAME=${NAME:-yuniruyuni}
 read -p "input your email: " EMAIL
 EMAIL=${EMAIL:-yuniruyuni@gmail.com}
 
-read -p "install languages? (y/N): " yn
+read -p "install asdf? (y/N): " yn
 case "$yn" in
-  [yY]*) INSTALL_LANGUAGES=true ;;
-  *) INSTALL_LANGUAGES=false ;;
+  [yY]*) INSTALL_ASDF=true ;;
+  *) INSTALL_ASDF=false ;;
 esac
 
 # ------------------------- setup functions
@@ -23,8 +23,15 @@ function create_if_missing () {
   [[ -e "$1" ]] || cat - > "$1"
 }
 
+# ------------------------- install rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup update
+rustup component add rustfmt
+rustup component add clippy
+rustup component add rls rust-analysis rust-src
+
 # ------------------------- install asdf
-if "${INSTALL_LANGUAGES}"; then
+if "${INSTALL_ASDF}"; then
   source install_asdf.sh
 fi
 
