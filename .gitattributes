@@ -1,0 +1,2 @@
+*.sh whitespace=indent,trail,space eol=lf
+*.bat eol=crlf

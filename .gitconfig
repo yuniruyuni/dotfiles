@@ -1,0 +1,40 @@
+[alias]
+    alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
+    staged = diff --cached
+    delete-merged-branch = !git branch --merged | grep -v -E '\\*|master|main' | xargs git branch -d; git fetch --prune
+[core]
+    autocrlf = false
+    quotepath = false
+    ignorecase = false
+    excludesfile = ~/dotfiles/.gitignore_global
+    attributesfile = ~/dotfiles/.gitattributes
+[push]
+    default = simple
+[pull]
+    rebase = merges
+[rerere]
+    enabled = true
+[merge]
+    tool = vscode
+[mergetool]
+    prompt = true
+[mergetool "vscode"]
+    cmd = code --wait "$MERGE"
+[diff]
+    tool = vscode
+    algorithm = histogram
+[difftool]
+    prompt = false
+[difftool "vscode"]
+    cmd = code --wait --diff "$LOCAL" "$REMOTE"
+[help]
+    autocorrect = -1
+[color]
+    ui = auto
+    status = auto
+    diff = auto
+    branch = auto
+    interactive = auto
+    grep = auto
+[ghq]
+    root = ~/src
