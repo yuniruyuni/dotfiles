@@ -114,8 +114,10 @@ function smux() {
 }
 
 # ------------------------- load asdf
-. $HOME/.asdf/asdf.sh
-fpath=($HOME/.asdf/completions $fpath)
+if [ -f $HOME/.asdf/asdf.sh ]; then
+  . $HOME/.asdf/asdf.sh
+  # fpath=($HOME/.asdf/completions $fpath)
+fi
 
 # ------------------------- p10k
 [[ -f ${SETTINGS_ROOT}/.p10k.zsh ]] && source ${SETTINGS_ROOT}/.p10k.zsh
