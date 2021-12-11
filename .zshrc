@@ -29,10 +29,6 @@ export GOPATH=$HOME
 # ----------- python
 export PIPENV_VENV_IN_PROJECT=true
 
-# ----------- prompt setting
-export PURE_POWER_MODE=modern
-typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito'
-
 # ------------------------- bat
 export BAT_THEME="OneHalfLight"
 
@@ -55,9 +51,6 @@ source "$HOME/.zplugin/bin/zplugin.zsh"
 if [[ ! -d ~/.zplugin/bin/zmodules/Src ]]; then
   zplugin module build
 fi
-
-zplugin ice depth=1; zplugin light romkatv/powerlevel10k
-# zplugin snippet https://github.com/sainnhe/edge/blob/master/zsh/.zsh-pure-power-dark
 
 zplugin ice wait"0" lucid; zplugin light mollifier/anyframe
 
@@ -119,5 +112,5 @@ if [ -f $HOME/.asdf/asdf.sh ]; then
   # fpath=($HOME/.asdf/completions $fpath)
 fi
 
-# ------------------------- p10k
-[[ -f ${SETTINGS_ROOT}/.p10k.zsh ]] && source ${SETTINGS_ROOT}/.p10k.zsh
+# ----------- prompt setting
+eval "$(oh-my-posh --init --shell zsh --config ~/dotfiles/ohmyposh.json)"
