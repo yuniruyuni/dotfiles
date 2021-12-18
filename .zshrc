@@ -1,8 +1,12 @@
-# ------------------------- zplugin modules
-if [[ ! -d ~/.zplugin/bin/zmodules/Src  ]]; then
-  module_path+=( "~/.zplugin/bin/zmodules/Src" )
-  zmodload zdharma/zplugin
+# ------------------------- zinit modules
+# auto install zinit
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [[ ! -d $ZINIT_HOME  ]]; then
+  mkdir -p "$(dirname $ZINIT_HOME)"
+  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
+
+source "${ZINIT_HOME}/zinit.zsh"
 
 # ------------------------- variables
 
@@ -35,34 +39,18 @@ export BAT_THEME="OneHalfLight"
 # ----------- path
 export PATH="$HOME/.cargo/bin:/usr/local/opt/llvm/bin:${HOME}/bin:${HOME}/.local/bin:/usr/local/bin:${HOME}/dotfiles/bin:${PATH}"
 
-# ------------------------- zplugin
+# ------------------------- zinit
 
-# auto install zplugin
-if [[ ! -d ~/.zplugin/bin ]]; then
-  mkdir -p ~/.zplugin
-  git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
-fi
+zinit ice wait"0" lucid; zinit light mollifier/anyframe
 
-declare -A ZPLGM
-ZPLGM[COMPINIT_OPTS]=-C
-source "$HOME/.zplugin/bin/zplugin.zsh"
+zinit ice wait"0" lucid as"program" from"gh-r" mv"fzf-* -> fzf"; zinit light junegunn/fzf-bin
+zinit ice wait"0" lucid as"program" from"gh-r" pick"*/ghq"; zinit light x-motemen/ghq
+zinit ice wait"0" lucid as"program" from"gh-r" mv"jq-* -> jq"; zinit light stedolan/jq
 
-# auto install zplugin module
-if [[ ! -d ~/.zplugin/bin/zmodules/Src ]]; then
-  zplugin module build
-fi
+zinit ice wait"0" lucid atload"_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
 
-zplugin ice wait"0" lucid; zplugin light mollifier/anyframe
-
-zplugin ice wait"0" lucid as"program" from"gh-r" mv"fzf-* -> fzf"; zplugin light junegunn/fzf-bin
-zplugin ice wait"0" lucid as"program" from"gh-r" pick"*/ghq"; zplugin light x-motemen/ghq
-zplugin ice wait"0" lucid as"program" from"gh-r" mv"jq-* -> jq"; zplugin light stedolan/jq
-
-zplugin ice wait"0" lucid atload"_zsh_autosuggest_start"
-zplugin light zsh-users/zsh-autosuggestions
-
-zplugin ice wait"0" lucid atinit"zpcompinit; zpcdreplay"
-zplugin light zdharma/fast-syntax-highlighting
+zinit ice wait"0" lucid atinit"zpcompinit; zpcdreplay"
 
 # ------------------------- basic options
 HISTFILE=~/.zsh_history
