@@ -33,14 +33,17 @@ brew install silicon # source code into image
 brew install angle-grinder # log analyze
 
 # ------------ brew cask
-brew install --cask alfred
 brew install --cask hyperswitch
 brew install --cask docker
 brew install --cask visual-studio-code
+brew install --cask discord
 
 # ------------ mas
 mas install 441258766 # Magnet
 mas install 425424353 # The Unarchiver
 mas install 414855915 # WinArchiver Lite
 mas install 539883307 # LINE
+mas install 803453959 # Slack
 mas install 405399194 # Kindle
+mas install 1335574515 # ThinkSpace
+mas install 1444383602 # GoodNotes
