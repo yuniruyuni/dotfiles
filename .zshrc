@@ -104,4 +104,4 @@ if [ -f $HOME/.asdf/asdf.sh ]; then
 fi
 
 # ----------- prompt setting
-eval "$(oh-my-posh --init --shell zsh --config ~/dotfiles/ohmyposh.json)"
+eval "$(oh-my-posh --init --shell zsh --config ~/dotfiles/oh-my-posh.json)"
