@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# task: gh wrapper for task management.
+# dependencies:
+#   - gh
+#   - pcre2grep
+#   - bash
+#   - compgen (for usage generation. normally, it installed with bash binary.)
+#   - echo
+#   - sed
+
+# YUNI_TASK_REPOSITORY is the repository contains issues this command manage.
+# maybe you must change it because this default is private repo of author.
+REPOSITORY=${YUNI_TASK_REPOSITORY:-"yuniruyuni/life"}
+
+# YUNI_TASK_MAX_SELECT_TASKS is maximum task number of showing in selector. default 10000.
+MAX_SELECT_TASKS=${YUNI_TASK_MAX_SELECT_TASKS:-1000}
+
+# for developer:
+#   - You can write a sub-command by define a function.
+#   - If you comment double-# above your function. The function will print in help.
+#     - First line of double-# comments will output as summary of the subcommand.
+#     - Other lines of double-# comments will output as detail of the subcommand.
+
+COMMAND=$0
+COMMAND_NAME=$(basename $0)
+
+## listup tasks.
+list() {
+  GH_FORCE_TTY=$(($(tput cols)/2)) \
+    gh issue list --repo $REPOSITORY -L $MAX_SELECT_TASKS $* | \
+    grep "#" | \
+    fzf --ansi --nth=1 --preview "gh issue view --repo $REPOSITORY {1}" | \
+    cut -d' ' -f1
+}
+
+## show doing tasks.
+doing() {
+  list --label Doing $*
+}
+
+## show closed tasks.
+closed() {
+  list --state closed $*
+}
+
+## take a task. it adds Doing label.
+take() {
+  gh issue edit --repo $REPOSITORY --add-label=Doing $(list)
+}
+
+## untake a task. it removes Doing label.
+untake() {
+  gh issue edit --repo $REPOSITORY --remove-label=Doing $(list --label=Doing)
+}
+
+## close a task.
+close() {
+  gh issue close --repo $REPOSITORY $(list --label=Doing)
+}
+
+## view a task detail on browser.
+view() {
+  gh issue view --web --repo $REPOSITORY $(list --label=Doing)
+}
+
+## show this help
+help() {
+  echo 'task: gh command wrapper for task management.'
+  echo 'Usage:'
+  FUNCS=$(compgen -A function)
+  for F in $FUNCS ; do
+    DOC=$(cat $COMMAND | pcre2grep -M "((##.*\n)+)(?=$F\s*\()" | sed -e 's/^## //')
+    HEAD=$(echo "$DOC" | sed -n 1p)
+    BODY=$(echo "$DOC" | sed -e 1d)
+
+    if [ -z "$HEAD" ]; then
+      continue
+    fi
+
+    if [ -z "$BODY" ]; then
+      echo "  * ${COMMAND_NAME} ${F}: ${HEAD}"
+    else
+      echo "  * ${COMMAND_NAME} ${F}:"
+      echo "${DOC}" | sed -e "s/^/      /"
+    fi
+  done
+}
+
+main() {
+  ! declare -F -- "$1" >/dev/null && help && exit 1
+  "$@"
+}
+
+main "$@"

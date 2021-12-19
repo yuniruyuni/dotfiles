@@ -70,6 +70,9 @@ setopt extended_glob
 
 # ------------------------- alias
 alias dkc=docker-compose
+alias vtuber="task list --label=VTuber"
+alias doing="task doing"
+alias closed="task closed"
 
 # ------------------------- key binding
 
