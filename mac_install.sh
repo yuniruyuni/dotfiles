@@ -34,7 +34,6 @@ brew install angle-grinder # log analyze
 
 # ------------ brew cask
 brew install --cask ueli
-brew install --cask hyperswitch
 brew install --cask docker
 brew install --cask visual-studio-code
 brew install --cask discord
