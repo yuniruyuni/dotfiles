@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/zsh
 
 # ------------------------- collect variables
 SETTINGS_ROOT=$(cd $(dirname $0); pwd)
