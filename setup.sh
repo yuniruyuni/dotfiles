@@ -9,10 +9,10 @@ NAME=${NAME:-yuniruyuni}
 read -p "input your email: " EMAIL
 EMAIL=${EMAIL:-yuniruyuni@gmail.com}
 
-read -p "install asdf? (y/N): " yn
+read -p "install mise? (y/N): " yn
 case "$yn" in
-  [yY]*) INSTALL_ASDF=true ;;
-  *) INSTALL_ASDF=false ;;
+  [yY]*) INSTALL_MISE=true ;;
+  *) INSTALL_MISE=false ;;
 esac
 
 # ------------------------- setup functions
@@ -31,8 +31,8 @@ rustup component add clippy
 rustup component add rls rust-analysis rust-src
 
 # ------------------------- install asdf
-if "${INSTALL_ASDF}"; then
-  source install_asdf.sh
+if "${INSTALL_MISE}"; then
+  source install_mise.sh
 fi
 
 # ------------------------- output template
