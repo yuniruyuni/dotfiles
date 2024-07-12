@@ -37,6 +37,9 @@ brew install --cask ueli
 brew install --cask docker
 brew install --cask visual-studio-code
 brew install --cask discord
+brew install --cask alt-tab
+brew install --cask figma
+brew install --cask obsidian
 
 # ------------ mas
 mas install 441258766 # Magnet
@@ -45,5 +48,4 @@ mas install 414855915 # WinArchiver Lite
 mas install 539883307 # LINE
 mas install 803453959 # Slack
 mas install 405399194 # Kindle
-mas install 1335574515 # ThinkSpace
 mas install 1444383602 # GoodNotes
