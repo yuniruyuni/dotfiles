@@ -45,7 +45,6 @@ zinit ice wait"0" lucid; zinit light mollifier/anyframe
 
 zinit ice wait"0" lucid as"program" from"gh-r" mv"fzf-* -> fzf"; zinit light junegunn/fzf-bin
 zinit ice wait"0" lucid as"program" from"gh-r" pick"*/ghq"; zinit light x-motemen/ghq
-zinit ice wait"0" lucid as"program" from"gh-r" mv"jq-* -> jq"; zinit light stedolan/jq
 
 zinit ice wait"0" lucid atload"_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
@@ -98,11 +97,11 @@ function smux() {
   ssh $* -t "tmux -u -CC new -A -s smux-\${\$(hostname)//\\./-}"
 }
 
-# ------------------------- load asdf
-if [ -f $HOME/.asdf/asdf.sh ]; then
-  . $HOME/.asdf/asdf.sh
-  # fpath=($HOME/.asdf/completions $fpath)
+# ------------------------- load mise
+if [ -f $HOME/.local/bin/mise ]; then
+  eval "$($HOME/.local/bin/mise activate zsh)"
+  eval "$($HOME/.local/bin/mise activate --shims)"
 fi
 
 # ----------- prompt setting
-eval "$(oh-my-posh --init --shell zsh --config ~/dotfiles/oh-my-posh.json)"
+eval "$(oh-my-posh --init --shell zsh --config /$HOME/dotfiles/oh-my-posh.json)"
