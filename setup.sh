@@ -23,6 +23,12 @@ function create_if_missing () {
   [[ -e "$1" ]] || cat - > "$1"
 }
 
+# ------------------------- prepare directory
+mkdir -p ~/bin
+
+# ------------------------- install oh-my-posh
+curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/bin
+
 # ------------------------- install rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup update
