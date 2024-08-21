@@ -49,6 +49,9 @@ zinit ice wait"0" lucid as"program" from"gh-r" pick"*/ghq"; zinit light x-moteme
 zinit ice wait"0" lucid atload"_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
 
+zinit ice pick'git-escape-magic'
+zinit light knu/zsh-git-escape-magic
+
 zinit ice wait"0" lucid atinit"zpcompinit; zpcdreplay"
 
 # ------------------------- basic options
