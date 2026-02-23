@@ -41,6 +41,13 @@ brew "ffmpeg" # video converter
 brew "jq" # json processor
 brew "uv" # python package manager
 
+# modern alternatives
+brew "eza" # alternative of ls command (successor of exa)
+brew "fd" # alternative of find command
+brew "dust" # alternative of du command
+brew "duf" # alternative of df command
+brew "bottom" # alternative of top command
+brew "procs" # alternative of ps command
 
 # ------------ brew cask
 # cask "ueli"

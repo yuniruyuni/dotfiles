@@ -75,7 +75,7 @@ alias dkc=docker-compose
 alias vtuber="task list --label=VTuber"
 alias doing="task doing"
 alias closed="task closed"
-alias xa="exa -lha --git -s type"
+alias xa="eza -lha --git --sort type"
 
 # ------------------------- key binding
 
