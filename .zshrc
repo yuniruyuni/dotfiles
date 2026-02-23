@@ -52,6 +52,9 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice pick'git-escape-magic'
 zinit light knu/zsh-git-escape-magic
 
+zinit ice wait"0" lucid
+zinit light zsh-users/zsh-syntax-highlighting
+
 zinit ice wait"0" lucid atinit"zpcompinit; zpcdreplay"
 
 # ------------------------- basic options
