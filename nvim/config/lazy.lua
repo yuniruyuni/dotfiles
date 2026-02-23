@@ -36,10 +36,11 @@ require("lazy").setup({
     { "haya14busa/vim-metarepeat" },
     { "keaising/im-select.nvim" },
     { "kylechui/nvim-surround" },
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "habamax" } },
+  install = { colorscheme = { "catppuccin-latte" } },
   -- automatically check for plugin updates
   checker = { enabled = true },
 })

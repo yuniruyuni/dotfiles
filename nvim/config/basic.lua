@@ -11,6 +11,7 @@ vim.opt.incsearch = true
 vim.opt.hlsearch = true
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.termguicolors = true
+vim.opt.background = "light"
 
 -- Key mappings
 vim.g.mapleader = " "
