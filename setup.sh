@@ -25,6 +25,7 @@ function create_if_missing () {
 
 # ------------------------- prepare directory
 mkdir -p ~/bin
+mkdir -p ~/.config/nvim
 
 # ------------------------- install oh-my-posh
 curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/bin
@@ -86,4 +87,9 @@ create_if_missing "$HOME/.gitconfig" << EOS
 
 [include]
   path = ${SETTINGS_ROOT}/.gitconfig
+EOS
+
+# ------------ nvim/init.lua
+create_if_missing "$HOME/.config/nvim/init.lua" << EOS
+dofile("${SETTINGS_ROOT}/nvim/init.lua")
 EOS
