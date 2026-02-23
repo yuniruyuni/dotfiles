@@ -43,7 +43,7 @@ export PATH="$HOME/.cargo/bin:/usr/local/opt/llvm/bin:${HOME}/bin:${HOME}/.local
 
 zinit ice wait"0" lucid; zinit light mollifier/anyframe
 
-zinit ice wait"0" lucid as"program" from"gh-r" mv"fzf-* -> fzf"; zinit light junegunn/fzf-bin
+zinit ice wait"0" lucid as"program" from"gh-r"; zinit light junegunn/fzf
 zinit ice wait"0" lucid as"program" from"gh-r" pick"*/ghq"; zinit light x-motemen/ghq
 
 zinit ice wait"0" lucid atload"_zsh_autosuggest_start"
