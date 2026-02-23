@@ -34,9 +34,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup update
 rustup component add rustfmt
 rustup component add clippy
-rustup component add rls rust-analysis rust-src
+# rust-analyzer is now the standard LSP, installed automatically with rustup
 
-# ------------------------- install asdf
+# ------------------------- install mise
 if "${INSTALL_MISE}"; then
   source install_mise.sh
 fi
