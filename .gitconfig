@@ -16,6 +16,12 @@
     default = simple
 [pull]
     rebase = merges
+[rebase]
+    autostash = true
+[fetch]
+    prune = true
+[branch]
+    sort = -committerdate
 [rerere]
     enabled = true
 [commit]
