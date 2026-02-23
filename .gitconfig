@@ -3,6 +3,7 @@
     staged = diff --cached
     delete-merged-branch = !git branch --merged | grep -v -E '\\*|master|main' | xargs git branch -d; git fetch --prune
     logp = log -p -- . ":(exclude)package-lock.json"
+    aicommit = "!f() { COMMITMSG=$(claude -p 'Generate ONLY a one-line Git commit message in English, using imperative mood, summarizing what was changed and why, based strictly on the contents of `git diff --cached`. Do not add explanation or a body. Output only the commit summary line.'); git commit -m \"$COMMITMSG\" -e; }; f"
 [core]
     autocrlf = false
     quotepath = false
