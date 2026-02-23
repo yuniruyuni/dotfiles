@@ -70,6 +70,7 @@ setopt hist_reduce_blanks
 setopt extended_glob
 
 # ------------------------- functions
+google() { open -a "Google Chrome" "https://www.google.com/search?q=$*"; }
 
 # ------------------------- events
 
