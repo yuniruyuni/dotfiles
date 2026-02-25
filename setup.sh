@@ -7,7 +7,7 @@ read -p "input your name: " NAME
 NAME=${NAME:-yuniruyuni}
 
 read -p "input your email: " EMAIL
-EMAIL=${EMAIL:-yuniruyuni@gmail.com}
+EMAIL=${EMAIL:-your-email@example.com}
 
 read -p "install mise? (y/N): " yn
 case "$yn" in
@@ -35,7 +35,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup update
 rustup component add rustfmt
 rustup component add clippy
-# rust-analyzer is now the standard LSP, installed automatically with rustup
+rustup component add rust-analyzer
+rustup component add rust-src
 
 # ------------------------- install mise
 if "${INSTALL_MISE}"; then

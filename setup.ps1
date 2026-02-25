@@ -12,8 +12,8 @@ $SETTINGS_ROOT = $PSScriptRoot
 $Name = Read-Host "input your name (default: yuniruyuni)"
 if ([string]::IsNullOrWhiteSpace($Name)) { $Name = "yuniruyuni" }
 
-$Email = Read-Host "input your email (default: yuniruyuni@gmail.com)"
-if ([string]::IsNullOrWhiteSpace($Email)) { $Email = "yuniruyuni@gmail.com" }
+$Email = Read-Host "input your email (default: your-email@example.com)"
+if ([string]::IsNullOrWhiteSpace($Email)) { $Email = "your-email@example.com" }
 
 # ------------------------- install chocolatey
 if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
@@ -76,6 +76,8 @@ if (Get-Command rustup -ErrorAction SilentlyContinue) {
     rustup update
     rustup component add rustfmt
     rustup component add clippy
+    rustup component add rust-analyzer
+    rustup component add rust-src
 } else {
     Write-Host "rustup not found. Please install Rust from https://rustup.rs/ first."
 }
