@@ -3,7 +3,7 @@ local config = wezterm.config_builder()
 config.automatically_reload_config = true
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-    config.default_prog = { 'pwsh.exe' }
+    config.default_prog = { 'nu' }
 end
 if wezterm.target_triple == "x86_64-apple-darwin" then
     config.default_prog = { 'zsh' }
