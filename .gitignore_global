@@ -1,2 +1,17 @@
-.vscode
+# macOS
 .DS_Store
+
+# IDE
+.vscode
+.idea/
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Environment
+.env.local
+
+# Logs
+*.log

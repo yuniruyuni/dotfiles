@@ -36,6 +36,10 @@ export PIPENV_VENV_IN_PROJECT=true
 # ------------------------- bat
 export BAT_THEME="OneHalfLight"
 
+# ------------------------- fzf
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+
 # ----------- path (OS-specific)
 case ${OSTYPE} in
   darwin*)
@@ -153,3 +157,9 @@ case ${OSTYPE} in
     fi
     ;;
 esac
+
+# ------------------------- load local config
+# Host-specific settings can be placed in ~/.zshrc_local
+if [ -f ~/.zshrc_local ]; then
+  source ~/.zshrc_local
+fi

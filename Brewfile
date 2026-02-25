@@ -17,7 +17,6 @@ brew "github/gh/gh" # github client
 brew "ghq"
 brew "nektos/tap/act" # run github actions locally
 brew "bat" # alternative of cat command
-brew "lsd" # alternative of ls command
 brew "navi" # cheatsheet viewer
 brew "tealdeer" # tldr manual reader
 brew "xsv" # csv processor
