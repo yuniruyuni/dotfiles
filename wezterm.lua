@@ -3,7 +3,8 @@ local config = wezterm.config_builder()
 config.automatically_reload_config = true
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-    config.default_prog = { 'nu' }
+    -- Use MSYS2 zsh as default shell on Windows
+    config.default_prog = { 'C:/msys64/usr/bin/zsh.exe', '-l' }
 end
 if wezterm.target_triple == "x86_64-apple-darwin" then
     config.default_prog = { 'zsh' }

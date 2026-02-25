@@ -36,8 +36,19 @@ export PIPENV_VENV_IN_PROJECT=true
 # ------------------------- bat
 export BAT_THEME="OneHalfLight"
 
-# ----------- path
-export PATH="$HOME/.cargo/bin:/usr/local/opt/llvm/bin:${HOME}/bin:${HOME}/.local/bin:/usr/local/bin:${HOME}/dotfiles/bin:${PATH}"
+# ----------- path (OS-specific)
+case ${OSTYPE} in
+  darwin*)
+    export PATH="$HOME/.cargo/bin:/usr/local/opt/llvm/bin:${HOME}/bin:${HOME}/.local/bin:/usr/local/bin:${HOME}/dotfiles/bin:${PATH}"
+    ;;
+  msys*)
+    # MSYS2: Include Windows-side tools (cargo, oh-my-posh, etc.)
+    export PATH="$HOME/.cargo/bin:${HOME}/bin:${HOME}/.local/bin:${HOME}/dotfiles/bin:/c/Users/$USER/AppData/Local/Programs/oh-my-posh/bin:/c/Users/$USER/.cargo/bin:${PATH}"
+    ;;
+  *)
+    export PATH="$HOME/.cargo/bin:${HOME}/bin:${HOME}/.local/bin:${HOME}/dotfiles/bin:${PATH}"
+    ;;
+esac
 
 # ------------------------- zinit
 
@@ -69,8 +80,15 @@ setopt hist_verify
 setopt hist_reduce_blanks
 setopt extended_glob
 
-# ------------------------- functions
-google() { open -a "Google Chrome" "https://www.google.com/search?q=$*"; }
+# ------------------------- functions (OS-specific)
+case ${OSTYPE} in
+  darwin*)
+    google() { open -a "Google Chrome" "https://www.google.com/search?q=$*"; }
+    ;;
+  msys*)
+    google() { start "https://www.google.com/search?q=$*"; }
+    ;;
+esac
 
 # ------------------------- events
 
@@ -104,11 +122,34 @@ function smux() {
   ssh $* -t "tmux -u -CC new -A -s smux-\${\$(hostname)//\\./-}"
 }
 
-# ------------------------- load mise
-if [ -f $HOME/.local/bin/mise ]; then
-  eval "$($HOME/.local/bin/mise activate zsh)"
-  eval "$($HOME/.local/bin/mise activate --shims)"
-fi
+# ------------------------- load mise (OS-specific)
+case ${OSTYPE} in
+  darwin*|linux*)
+    if [ -f $HOME/.local/bin/mise ]; then
+      eval "$($HOME/.local/bin/mise activate zsh)"
+      eval "$($HOME/.local/bin/mise activate --shims)"
+    fi
+    ;;
+  msys*)
+    # Windows: mise installed via winget
+    if command -v mise &> /dev/null; then
+      eval "$(mise activate zsh)"
+    fi
+    ;;
+esac
 
-# ----------- prompt setting
-eval "$(oh-my-posh --init --shell zsh --config /$HOME/dotfiles/oh-my-posh.json)"
+# ----------- prompt setting (OS-specific)
+case ${OSTYPE} in
+  darwin*)
+    eval "$(oh-my-posh init zsh --config $HOME/dotfiles/oh-my-posh.json)"
+    ;;
+  msys*)
+    # Windows: use oh-my-posh installed via winget
+    eval "$(/c/Users/$USER/AppData/Local/Programs/oh-my-posh/bin/oh-my-posh.exe init zsh --config /c/Users/$USER/dotfiles/oh-my-posh.json)"
+    ;;
+  *)
+    if command -v oh-my-posh &> /dev/null; then
+      eval "$(oh-my-posh init zsh --config $HOME/dotfiles/oh-my-posh.json)"
+    fi
+    ;;
+esac
