@@ -66,7 +66,7 @@ function Install-WingetPackage {
     }
 }
 
-# Note: Nushell, WezTerm, MSYS2 are installed via Chocolatey
+# Note: WezTerm, MSYS2 are installed via Chocolatey
 Install-WingetPackage "JanDeDobbeleer.OhMyPosh" "oh-my-posh"
 Install-WingetPackage "jdx.mise" "mise"
 
@@ -83,32 +83,14 @@ if (Get-Command rustup -ErrorAction SilentlyContinue) {
 }
 
 # ------------------------- prepare directories
-$NushellConfigDir = "$env:APPDATA\nushell"
 $NvimConfigDir = "$env:LOCALAPPDATA\nvim"
 
-New-Item -ItemType Directory -Path $NushellConfigDir -Force | Out-Null
 New-Item -ItemType Directory -Path $NvimConfigDir -Force | Out-Null
 
 # Normalize the dotfiles path with forward slashes for cross-shell compatibility
 $DotfilesPath = $SETTINGS_ROOT -replace '\\', '/'
 
 # ------------------------- output templates
-
-# ------------ nushell/config.nu
-Create-IfMissing "$NushellConfigDir\config.nu" @"
-# dotfiles directory
-const DOTFILES = '$DotfilesPath'
-
-source `$"(`$DOTFILES)/nushell/config.nu"
-"@
-
-# ------------ nushell/env.nu
-Create-IfMissing "$NushellConfigDir\env.nu" @"
-# dotfiles directory
-const DOTFILES = '$DotfilesPath'
-
-source `$"(`$DOTFILES)/nushell/env.nu"
-"@
 
 # ------------ .gitconfig
 Create-IfMissing "$HOME\.gitconfig" @"
