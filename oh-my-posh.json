@@ -59,7 +59,7 @@
       "segments": [
         {
           "properties": {
-            "cache_duration": "none",
+            "cache_duration": "5m",
             "fetch_version": true
           },
           "template": " {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} \ue718 ",
@@ -72,7 +72,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
+            "cache_duration": "5m",
             "fetch_version": true
           },
           "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} \ue627 ",
@@ -85,20 +85,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
-            "fetch_version": true
-          },
-          "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} \ue624 ",
-          "foreground": "#111111",
-          "powerline_symbol": "\ue0b2",
-          "background": "#4063D8",
-          "type": "julia",
-          "style": "powerline",
-          "invert_powerline": true
-        },
-        {
-          "properties": {
-            "cache_duration": "none",
+            "cache_duration": "5m",
             "display_mode": "files",
             "fetch_virtual_env": false
           },
@@ -112,7 +99,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
+            "cache_duration": "5m",
             "display_mode": "files",
             "fetch_version": true
           },
@@ -126,7 +113,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none"
+            "cache_duration": "5m"
           },
           "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} \ue7a8 ",
           "foreground": "#193549",
@@ -146,20 +133,6 @@
           "background": "#ebcc34",
           "type": "terraform",
           "style": "powerline"
-        },
-        {
-          "properties": {
-            "cache_duration": "none",
-            "display_mode": "files",
-            "fetch_version": false
-          },
-          "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} \uf0e7",
-          "foreground": "#ffffff",
-          "powerline_symbol": "\ue0b2",
-          "background": "#FEAC19",
-          "type": "azfunc",
-          "style": "powerline",
-          "invert_powerline": true
         },
         {
           "properties": {
@@ -193,7 +166,7 @@
         {
           "properties": {
             "cache_duration": "none",
-            "threshold": 0
+            "threshold": 500
           },
           "template": " {{ .FormattedMs }} \uf252 ",
           "foreground": "#000000",
