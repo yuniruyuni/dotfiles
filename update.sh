@@ -1,14 +1,30 @@
 #!/bin/bash
-# Update all tools and packages
+# Update all tools and packages (cross-platform)
 
 set -e
 
-echo "=== Updating Homebrew ==="
-brew update && brew upgrade
+echo "=== Updating package manager ==="
+case ${OSTYPE} in
+  darwin*)
+    brew update && brew upgrade
+    ;;
+  msys*)
+    choco upgrade all -y
+    ;;
+  linux*)
+    if command -v apt &> /dev/null; then
+      sudo apt update && sudo apt upgrade -y
+    elif command -v pacman &> /dev/null; then
+      sudo pacman -Syu
+    fi
+    ;;
+esac
 
 echo ""
 echo "=== Updating Rust ==="
-rustup update
+if command -v rustup &> /dev/null; then
+  rustup update
+fi
 
 echo ""
 echo "=== Updating mise ==="
