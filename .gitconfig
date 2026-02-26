@@ -1,4 +1,15 @@
 [alias]
+    # shortcuts
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    # utilities
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    amend = commit --amend --no-edit
+    lg = log --graph --oneline --all --decorate
+    # existing aliases
     alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
     staged = diff --cached
     delete-merged-branch = !git branch --merged | grep -v -E '\\*|master|main' | xargs git branch -d; git fetch --prune
