@@ -94,3 +94,8 @@ EOS
 create_if_missing "$HOME/.config/nvim/init.lua" << EOS
 dofile("${SETTINGS_ROOT}/nvim/init.lua")
 EOS
+
+# ------------ .wezterm.lua
+create_if_missing "$HOME/.wezterm.lua" << EOS
+dofile("${SETTINGS_ROOT}/wezterm.lua")
+EOS

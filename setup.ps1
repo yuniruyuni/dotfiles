@@ -107,6 +107,11 @@ Create-IfMissing "$NvimConfigDir\init.lua" @"
 dofile("$DotfilesPath/nvim/init.lua")
 "@
 
+# ------------ .wezterm.lua
+Create-IfMissing "$HOME\.wezterm.lua" @"
+dofile("$DotfilesPath/wezterm.lua")
+"@
+
 # ------------------------- setup MSYS2
 # Refresh environment variables to pick up MSYS2_ROOT set by Chocolatey
 $env:MSYS2_ROOT = [System.Environment]::GetEnvironmentVariable("MSYS2_ROOT", "Machine")
