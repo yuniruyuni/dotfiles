@@ -107,9 +107,11 @@ Create-IfMissing "$NvimConfigDir\init.lua" @"
 dofile("$DotfilesPath/nvim/init.lua")
 "@
 
-# ------------------------- setup MSYS2 zsh symlinks
-$MSYS2Home = "C:\msys64\home\$env:USERNAME"
-if (Test-Path "C:\msys64") {
+# ------------------------- setup MSYS2
+$MSYS2Root = "C:\msys64"
+$MSYS2Home = "$MSYS2Root\home\$env:USERNAME"
+
+if (Test-Path $MSYS2Root) {
     Write-Host "Setting up MSYS2 zsh configuration..."
     New-Item -ItemType Directory -Path $MSYS2Home -Force | Out-Null
 
@@ -120,14 +122,17 @@ if (Test-Path "C:\msys64") {
     New-Item -ItemType SymbolicLink -Path "$MSYS2Home\.zshrc" -Target "$SETTINGS_ROOT\.zshrc"
     New-Item -ItemType SymbolicLink -Path "$MSYS2Home\.zshenv" -Target "$SETTINGS_ROOT\.zshenv"
     Write-Host "Created symlinks for .zshrc and .zshenv in MSYS2 home"
+
+    # Run setup_msys2.sh to install zsh and tools
+    Write-Host ""
+    Write-Host "Installing MSYS2 packages (zsh, git, etc.)..."
+    $DotfilesUnixPath = "/c/Users/$env:USERNAME/dotfiles"
+    & "$MSYS2Root\usr\bin\bash.exe" -lc "cd $DotfilesUnixPath && ./setup_msys2.sh"
 } else {
-    Write-Host "MSYS2 not found at C:\msys64. Run 'choco install msys2' first, then re-run this script."
+    Write-Host "MSYS2 not found at $MSYS2Root. Chocolatey installation may have failed."
+    exit 1
 }
 
 Write-Host ""
 Write-Host "Setup complete!"
-Write-Host ""
-Write-Host "Next steps:"
-Write-Host "1. Open MSYS2 terminal (C:\msys64\msys2.exe)"
-Write-Host "2. Run: cd /c/Users/$env:USERNAME/dotfiles && ./setup_msys2.sh"
-Write-Host "3. Restart WezTerm to use zsh"
+Write-Host "Restart WezTerm to start using zsh."
