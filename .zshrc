@@ -143,17 +143,18 @@ case ${OSTYPE} in
 esac
 
 # ----------- prompt setting (OS-specific)
+POSH_CONFIG="$HOME/dotfiles/oh-my-posh.json"
 case ${OSTYPE} in
   darwin*)
-    eval "$(oh-my-posh init zsh --config $HOME/dotfiles/oh-my-posh.json)"
+    eval "$(oh-my-posh init zsh --config $POSH_CONFIG)"
     ;;
   msys*)
-    # Windows: use oh-my-posh installed via winget
+    # Windows: use oh-my-posh installed via winget (Windows path required)
     eval "$(/c/Users/$USER/AppData/Local/Programs/oh-my-posh/bin/oh-my-posh.exe init zsh --config /c/Users/$USER/dotfiles/oh-my-posh.json)"
     ;;
   *)
     if command -v oh-my-posh &> /dev/null; then
-      eval "$(oh-my-posh init zsh --config $HOME/dotfiles/oh-my-posh.json)"
+      eval "$(oh-my-posh init zsh --config $POSH_CONFIG)"
     fi
     ;;
 esac
