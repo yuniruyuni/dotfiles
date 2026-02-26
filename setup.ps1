@@ -108,10 +108,18 @@ dofile("$DotfilesPath/nvim/init.lua")
 "@
 
 # ------------------------- setup MSYS2
-$MSYS2Root = "C:\msys64"
+# Refresh environment variables to pick up MSYS2_ROOT set by Chocolatey
+$env:MSYS2_ROOT = [System.Environment]::GetEnvironmentVariable("MSYS2_ROOT", "Machine")
+
+# Detect MSYS2 installation path: MSYS2_ROOT env var → C:\tools\msys64 → C:\msys64
+$MSYS2Root = if ($env:MSYS2_ROOT -and (Test-Path $env:MSYS2_ROOT)) { $env:MSYS2_ROOT }
+             elseif (Test-Path "C:\tools\msys64") { "C:\tools\msys64" }
+             elseif (Test-Path "C:\msys64") { "C:\msys64" }
+             else { $null }
+
 $MSYS2Home = "$MSYS2Root\home\$env:USERNAME"
 
-if (Test-Path $MSYS2Root) {
+if ($MSYS2Root) {
     Write-Host "Setting up MSYS2 zsh configuration..."
     New-Item -ItemType Directory -Path $MSYS2Home -Force | Out-Null
 

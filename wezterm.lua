@@ -2,11 +2,14 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
 
-if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+local triple = wezterm.target_triple
+if triple:find("windows") then
     -- Use MSYS2 zsh as default shell on Windows
-    config.default_prog = { 'C:/msys64/usr/bin/zsh.exe', '-l' }
-end
-if wezterm.target_triple == "x86_64-apple-darwin" then
+    -- Detect path: MSYS2_ROOT env var → C:/tools/msys64 → C:/msys64
+    local msys2_root = os.getenv("MSYS2_ROOT") or "C:/tools/msys64"
+    msys2_root = msys2_root:gsub("\\", "/")
+    config.default_prog = { msys2_root .. '/usr/bin/zsh.exe', '-l' }
+elseif triple:find("darwin") or triple:find("linux") then
     config.default_prog = { 'zsh' }
 end
 
