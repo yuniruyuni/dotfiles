@@ -12,8 +12,8 @@ $SETTINGS_ROOT = $PSScriptRoot
 $Name = Read-Host "input your name (default: yuniruyuni)"
 if ([string]::IsNullOrWhiteSpace($Name)) { $Name = "yuniruyuni" }
 
-$Email = Read-Host "input your email (default: your-email@example.com)"
-if ([string]::IsNullOrWhiteSpace($Email)) { $Email = "your-email@example.com" }
+$Email = Read-Host "input your email (default: yuniruyuni@gmail.com)"
+if ([string]::IsNullOrWhiteSpace($Email)) { $Email = "yuniruyuni@gmail.com" }
 
 # ------------------------- install chocolatey
 if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
