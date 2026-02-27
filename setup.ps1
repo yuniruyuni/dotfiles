@@ -122,9 +122,24 @@ $MSYS2Root = if ($env:MSYS2_ROOT -and (Test-Path $env:MSYS2_ROOT)) { $env:MSYS2_
              elseif (Test-Path "C:\msys64") { "C:\msys64" }
              else { $null }
 
-$MSYS2Home = "$MSYS2Root\home\$env:USERNAME"
+$MSYS2Home = $env:USERPROFILE
 
 if ($MSYS2Root) {
+    # Configure MSYS2 to use Windows USERPROFILE as HOME
+    Write-Host "Configuring MSYS2 HOME to use Windows USERPROFILE..."
+    $NsswitchPath = "$MSYS2Root\etc\nsswitch.conf"
+    if (Test-Path $NsswitchPath) {
+        $content = Get-Content $NsswitchPath -Raw
+        if ($content -match "(?m)^db_home:") {
+            $content = $content -replace "(?m)^db_home:.*", "db_home: windows"
+        } else {
+            $content = $content.TrimEnd() + "`ndb_home: windows`n"
+        }
+        Set-Content -Path $NsswitchPath -Value $content -NoNewline
+    } else {
+        Set-Content -Path $NsswitchPath -Value "db_home: windows`n" -NoNewline
+    }
+
     Write-Host "Setting up MSYS2 zsh configuration..."
     New-Item -ItemType Directory -Path $MSYS2Home -Force | Out-Null
 
