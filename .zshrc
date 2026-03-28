@@ -107,4 +107,4 @@ if [ -f $HOME/.local/bin/mise ]; then
 fi
 
 # ----------- prompt setting
-eval "$(oh-my-posh --init --shell zsh --config /$HOME/dotfiles/oh-my-posh.json)"
+eval "$(oh-my-posh --init --shell zsh --config $SETTINGS_ROOT/oh-my-posh.json)"
