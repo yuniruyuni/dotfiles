@@ -34,7 +34,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup update
 rustup component add rustfmt
 rustup component add clippy
-rustup component add rls rust-analysis rust-src
+rustup component add rust-analyzer rust-src
 
 # ------------------------- install asdf
 if "${INSTALL_MISE}"; then
