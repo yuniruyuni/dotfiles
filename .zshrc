@@ -27,8 +27,6 @@ export MANPATH="${HOME_LOCAL}/man:/usr/local/man:${MANPATH}"
 # ----------- editor
 export EDITOR="code --wait"
 
-# ----------- golang
-export GOPATH=$HOME
 
 # ----------- python
 export PIPENV_VENV_IN_PROJECT=true
