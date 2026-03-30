@@ -80,6 +80,11 @@ create_if_missing "$HOME/.zshenv" << EOS
 source $SETTINGS_ROOT/.zshenv
 EOS
 
+# ------------ .tmux.conf
+create_if_missing "$HOME/.tmux.conf" << EOS
+source-file ${SETTINGS_ROOT}/.tmux.conf
+EOS
+
 # ------------ .gitconfig
 create_if_missing "$HOME/.gitconfig" << EOS
 [user]
