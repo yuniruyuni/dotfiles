@@ -1,7 +1,7 @@
 #! /bin/zsh
 
 # ------------------------- collect variables
-SETTINGS_ROOT=$(cd $(dirname $0); pwd)
+SETTINGS_ROOT=$(cd "$(dirname "$0")"; pwd)
 
 read -p "input your name: " NAME
 NAME=${NAME:-yuniruyuni}
