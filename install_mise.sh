@@ -9,9 +9,6 @@ eval "$($HOME/.local/bin/mise activate zsh)"
 eval "$($HOME/.local/bin/mise activate --shims)"
 
 # ------------------------- install python
-mise install python@2
-mise global python@2
-
 mise install python@3
 mise global python@3
 
