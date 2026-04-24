@@ -63,7 +63,7 @@ cask "obs"
 cask "orbstack"
 cask "steam"
 cask "syncthing"
-cask "wezterm"
+cask "ghostty"
 
 # ------------ mas
 mas "Magnet", id: 441258766 # Magnet

@@ -45,10 +45,6 @@ case ${OSTYPE} in
   darwin*)
     export PATH="$HOME/.cargo/bin:/usr/local/opt/llvm/bin:${HOME}/bin:${HOME}/.local/bin:/usr/local/bin:${HOME}/dotfiles/bin:${PATH}"
     ;;
-  msys*)
-    # MSYS2: Include Windows-side tools (cargo, oh-my-posh, etc.)
-    export PATH="$HOME/.cargo/bin:${HOME}/bin:${HOME}/.local/bin:${HOME}/dotfiles/bin:/c/Users/$USER/AppData/Local/Programs/oh-my-posh/bin:/c/Users/$USER/.cargo/bin:${PATH}"
-    ;;
   *)
     export PATH="$HOME/.cargo/bin:${HOME}/bin:${HOME}/.local/bin:${HOME}/dotfiles/bin:${PATH}"
     ;;
@@ -88,9 +84,6 @@ setopt extended_glob
 case ${OSTYPE} in
   darwin*)
     google() { open -a "Google Chrome" "https://www.google.com/search?q=$*"; }
-    ;;
-  msys*)
-    google() { start "https://www.google.com/search?q=$*"; }
     ;;
 esac
 
@@ -134,12 +127,6 @@ case ${OSTYPE} in
       eval "$($HOME/.local/bin/mise activate --shims)"
     fi
     ;;
-  msys*)
-    # Windows: mise installed via winget
-    if command -v mise &> /dev/null; then
-      eval "$(mise activate zsh)"
-    fi
-    ;;
 esac
 
 # ----------- prompt setting (OS-specific)
@@ -147,10 +134,6 @@ POSH_CONFIG="$HOME/dotfiles/oh-my-posh.json"
 case ${OSTYPE} in
   darwin*)
     eval "$(oh-my-posh init zsh --config $POSH_CONFIG)"
-    ;;
-  msys*)
-    # Windows: use oh-my-posh installed via winget (Windows path required)
-    eval "$(/c/Users/$USER/AppData/Local/Programs/oh-my-posh/bin/oh-my-posh.exe init zsh --config /c/Users/$USER/dotfiles/oh-my-posh.json)"
     ;;
   *)
     if command -v oh-my-posh &> /dev/null; then

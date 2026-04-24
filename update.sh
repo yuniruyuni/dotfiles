@@ -8,9 +8,6 @@ case ${OSTYPE} in
   darwin*)
     brew update && brew upgrade
     ;;
-  msys*)
-    choco upgrade all -y
-    ;;
   linux*)
     if command -v apt &> /dev/null; then
       sudo apt update && sudo apt upgrade -y

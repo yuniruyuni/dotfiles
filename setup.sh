@@ -105,10 +105,13 @@ create_if_missing "$HOME/.config/nvim/init.lua" << EOS
 dofile("${SETTINGS_ROOT}/nvim/init.lua")
 EOS
 
-# ------------ .wezterm.lua
-create_if_missing "$HOME/.wezterm.lua" << EOS
-dofile("${SETTINGS_ROOT}/wezterm.lua")
-EOS
+# ------------ ~/.config/ghostty
+case ${OSTYPE} in
+  darwin*)
+    mkdir -p "$HOME/.config/ghostty"
+    link_to_repo "${SETTINGS_ROOT}/ghostty/config" "$HOME/.config/ghostty/config"
+    ;;
+esac
 
 # ------------ ~/.config/zellij
 # zellij's config has no include directive, and zellij auto-regenerates

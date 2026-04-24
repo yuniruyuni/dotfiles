@@ -1,0 +1,6 @@
+font-family = Cica
+theme = catppuccin-latte
+background-opacity = 0.93
+window-padding-x = 4
+window-padding-y = 2
+confirm-close-surface = false
