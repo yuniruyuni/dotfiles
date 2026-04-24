@@ -1,0 +1,2 @@
+# zellij auto-regenerates config.kdl and writes the previous version to *.bak
+*.bak

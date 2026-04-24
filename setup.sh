@@ -1,4 +1,4 @@
-#! /bin/zsh
+#! /bin/bash
 
 # ------------------------- collect variables
 SETTINGS_ROOT=$(cd $(dirname $0); pwd)
@@ -21,6 +21,16 @@ esac
 # otherwise, don't touch.
 function create_if_missing () {
   [[ -e "$1" ]] || cat - > "$1"
+}
+
+# create (or refresh) a symlink at $2 pointing to $1.
+# if $2 is an existing real file, back it up to $2.pre-dotfiles first.
+function link_to_repo () {
+  local src="$1" dst="$2"
+  if [[ -e "$dst" && ! -L "$dst" ]]; then
+    mv "$dst" "${dst}.pre-dotfiles"
+  fi
+  ln -sfn "$src" "$dst"
 }
 
 # ------------------------- prepare directory
@@ -99,3 +109,9 @@ EOS
 create_if_missing "$HOME/.wezterm.lua" << EOS
 dofile("${SETTINGS_ROOT}/wezterm.lua")
 EOS
+
+# ------------ ~/.config/zellij
+# zellij's config has no include directive, and zellij auto-regenerates
+# config.kdl atomically (which would replace a file-level symlink), so
+# symlink the whole directory. zellij-generated *.bak is gitignored.
+link_to_repo "${SETTINGS_ROOT}/zellij" "$HOME/.config/zellij"
