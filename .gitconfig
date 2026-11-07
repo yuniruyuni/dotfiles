@@ -53,12 +53,5 @@
     cmd = code --wait --diff "$LOCAL" "$REMOTE"
 [help]
     autocorrect = -1
-[color]
-    ui = auto
-    status = auto
-    diff = auto
-    branch = auto
-    interactive = auto
-    grep = auto
 [ghq]
     root = ~/src
