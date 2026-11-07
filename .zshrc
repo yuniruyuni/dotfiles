@@ -36,6 +36,9 @@ export PIPENV_VENV_IN_PROJECT=true
 # ------------------------- bat
 export BAT_THEME="OneHalfLight"
 
+# ------------------------- mcat
+export MCAT_THEME="makurai-light"
+
 # ------------------------- fzf
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
