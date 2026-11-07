@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 export TMPDIR="$HOME/.tmp"
-mkdir -p $TMPDIR
+mkdir -p "$TMPDIR"
 
 curl https://mise.jdx.dev/install.sh | sh
 

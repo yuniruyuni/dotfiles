@@ -16,7 +16,9 @@ export LC_ALL=ja_JP.UTF-8
 export LANG=ja_JP.UTF-8
 
 # ----------- terminfo
-export TERM=xterm-256color
+# Hosts without the terminal's terminfo entry (e.g. xterm-ghostty over SSH)
+# fall back to xterm-256color; otherwise keep what the terminal set.
+infocmp "$TERM" &>/dev/null || export TERM=xterm-256color
 
 # ----------- local
 export HOME_LOCAL="${HOME}/.local/"
@@ -116,10 +118,10 @@ bindkey "^n" history-beginning-search-forward-end
 # ----------- anyframe
 bindkey '^r' anyframe-widget-cd-ghq-repository
 
-# ----------- tmux
-# iTerm integrated tmux on ssh session
+# ----------- zellij
+# attach to (or create) the "main" zellij session on a remote host
 function smux() {
-  ssh $* -t "tmux -u -CC new -A -s smux-\${\$(hostname)//\\./-}"
+  ssh -t "$@" "zellij attach --create main"
 }
 
 # ------------------------- load mise (OS-specific)
