@@ -23,6 +23,10 @@ infocmp "$TERM" &>/dev/null || export TERM=xterm-256color
 # ----------- local
 export HOME_LOCAL="${HOME}/.local/"
 
+# ----------- dotfiles
+# set by the ~/.zshrc that setup.sh generates; fall back to the usual location
+export SETTINGS_ROOT="${SETTINGS_ROOT:-${HOME}/dotfiles}"
+
 # ----------- man
 export MANPATH="${HOME_LOCAL}/man:/usr/local/man:${MANPATH}"
 
@@ -48,10 +52,10 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 # ----------- path (OS-specific)
 case ${OSTYPE} in
   darwin*)
-    export PATH="$HOME/.cargo/bin:/usr/local/opt/llvm/bin:${HOME}/bin:${HOME}/.local/bin:/usr/local/bin:${HOME}/dotfiles/bin:${PATH}"
+    export PATH="$HOME/.cargo/bin:/usr/local/opt/llvm/bin:${HOME}/bin:${HOME}/.local/bin:/usr/local/bin:${SETTINGS_ROOT}/bin:${PATH}"
     ;;
   *)
-    export PATH="$HOME/.cargo/bin:${HOME}/bin:${HOME}/.local/bin:${HOME}/dotfiles/bin:${PATH}"
+    export PATH="$HOME/.cargo/bin:${HOME}/bin:${HOME}/.local/bin:${SETTINGS_ROOT}/bin:${PATH}"
     ;;
 esac
 
@@ -135,7 +139,7 @@ case ${OSTYPE} in
 esac
 
 # ----------- prompt setting (OS-specific)
-POSH_CONFIG="$HOME/dotfiles/oh-my-posh.json"
+POSH_CONFIG="${SETTINGS_ROOT}/oh-my-posh.json"
 case ${OSTYPE} in
   darwin*)
     eval "$(oh-my-posh init zsh --config $POSH_CONFIG)"
