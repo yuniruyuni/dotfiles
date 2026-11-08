@@ -12,10 +12,9 @@ eval "$($HOME/.local/bin/mise activate --shims)"
 mise install python@3
 mise global python@3
 
-pip install --user pipenv
-
-# install poetry (package bundler)
-curl -sSL https://install.python-poetry.org | python3 -
+# ------------------------- install uv (python package/project manager)
+mise install uv@latest
+mise global uv@latest
 
 # ------------------------- install nodejs
 mise install nodejs@lts
