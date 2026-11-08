@@ -36,9 +36,6 @@ export EDITOR="code --wait"
 # ----------- golang
 export GOPATH=$HOME
 
-# ----------- python
-export PIPENV_VENV_IN_PROJECT=true
-
 # ------------------------- bat
 export BAT_THEME="OneHalfLight"
 
@@ -72,10 +69,9 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice pick'git-escape-magic'
 zinit light knu/zsh-git-escape-magic
 
-zinit ice wait"0" lucid
-zinit light zsh-users/zsh-syntax-highlighting
-
+# compinit を走らせてから、それまでに積まれた compdef を再生する
 zinit ice wait"0" lucid atinit"zpcompinit; zpcdreplay"
+zinit light zsh-users/zsh-syntax-highlighting
 
 # ------------------------- basic options
 HISTFILE=~/.zsh_history

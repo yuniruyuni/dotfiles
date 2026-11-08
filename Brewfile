@@ -38,7 +38,6 @@ brew "cmake" # build system
 brew "coreutils" # GNU core utilities
 brew "ffmpeg" # video converter
 brew "jq" # json processor
-brew "uv" # python package manager
 
 # modern alternatives
 brew "eza" # alternative of ls command (successor of exa)
