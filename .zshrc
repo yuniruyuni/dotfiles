@@ -31,7 +31,7 @@ export SETTINGS_ROOT="${SETTINGS_ROOT:-${HOME}/dotfiles}"
 export MANPATH="${HOME_LOCAL}/man:/usr/local/man:${MANPATH}"
 
 # ----------- editor
-export EDITOR="code --wait"
+export EDITOR="nvim"
 
 # ----------- golang
 export GOPATH=$HOME

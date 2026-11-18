@@ -37,3 +37,7 @@ mise global go@latest
 # ------------------------- install jq
 mise install jq@latest
 mise global jq@latest
+
+# ------------------------- install tree-sitter CLI (nvim-treesitter builds parsers with it)
+mise install tree-sitter@latest
+mise global tree-sitter@latest

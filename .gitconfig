@@ -38,19 +38,15 @@
 [commit]
     verbose = true
 [merge]
-    tool = vscode
+    tool = nvimdiff
     conflictstyle = zdiff3
 [mergetool]
     prompt = true
-[mergetool "vscode"]
-    cmd = code --wait "$MERGE"
 [diff]
-    tool = vscode
+    tool = nvimdiff
     algorithm = histogram
 [difftool]
     prompt = false
-[difftool "vscode"]
-    cmd = code --wait --diff "$LOCAL" "$REMOTE"
 [help]
     autocorrect = -1
 [ghq]

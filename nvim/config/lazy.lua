@@ -15,19 +15,33 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
 -- Setup lazy.nvim
 require("lazy").setup({
 
   spec = {
+    -- ---------------------------------------------------------- appearance
+    {
+      "catppuccin/nvim",
+      name = "catppuccin",
+      priority = 1000, -- load before everything else that draws
+      config = function()
+        vim.cmd.colorscheme("catppuccin-latte")
+      end,
+    },
+
+    -- ------------------------------------------------------------- motions
     { "rhysd/clever-f.vim" },
     { "unblevable/quick-scope" },
-    { "wellle/targets.vim" },
+    {
+      -- j/k that stop at the edge of a block of code.
+      "haya14busa/vim-edgemotion",
+      keys = {
+        { "<Leader>j", "<Plug>(edgemotion-j)", mode = { "n", "x", "o" }, desc = "Down to block edge" },
+        { "<Leader>k", "<Plug>(edgemotion-k)", mode = { "n", "x", "o" }, desc = "Up to block edge" },
+      },
+    },
+
+    -- ------------------------------------------------------------- editing
     {
       "monaqa/dial.nvim",
       keys = {
@@ -42,15 +56,6 @@ require("lazy").setup({
       },
     },
     {
-      "rapan931/lasterisk.nvim",
-      keys = {
-        { "*", function() require("lasterisk").search() end, desc = "Search word under cursor" },
-        { "g*", function() require("lasterisk").search({ is_whole = false }) end, desc = "Search partial word" },
-        { "*", function() require("lasterisk").search({ is_whole = false }) end, mode = "x", desc = "Search selection" },
-      },
-    },
-    { "kevinhwang91/nvim-hlslens", opts = {} },
-    {
       "gbprod/substitute.nvim",
       opts = {},
       keys = {
@@ -60,8 +65,147 @@ require("lazy").setup({
         { "s", function() require("substitute").visual() end, mode = "x", desc = "Substitute selection" },
       },
     },
-    { "haya14busa/vim-edgemotion" },
-    { "haya14busa/vim-metarepeat" },
+    { "kylechui/nvim-surround", event = "VeryLazy", opts = {} },
+    { "haya14busa/vim-metarepeat" }, -- g. repeats the last change over a motion
+
+    -- -------------------------------------------------------------- search
+    {
+      "rapan931/lasterisk.nvim",
+      keys = {
+        { "*", function() require("lasterisk").search() end, desc = "Search word under cursor" },
+        { "g*", function() require("lasterisk").search({ is_whole = false }) end, desc = "Search partial word" },
+        { "*", function() require("lasterisk").search({ is_whole = false }) end, mode = "x", desc = "Search selection" },
+      },
+    },
+    { "kevinhwang91/nvim-hlslens", opts = {} },
+
+    -- -------------------------------------------------------- text objects
+    {
+      "nvim-mini/mini.nvim",
+      version = false,
+      config = function()
+        -- Text objects (replaces targets.vim). The "next"/"last" variants
+        -- move off the default an/in/al/il: in visual mode Neovim itself
+        -- uses an/in to grow and shrink the selection by syntax node.
+        require("mini.ai").setup({
+          mappings = {
+            around_next = "aN",
+            inside_next = "iN",
+            around_last = "aL",
+            inside_last = "iL",
+          },
+        })
+      end,
+      lazy = false,
+    },
+
+    -- -------------------------------------------------------------- picker
+    {
+      -- Fuzzy finder on top of the `fzf` command (also needs `rg` and `fd`).
+      "ibhagwan/fzf-lua",
+      cmd = "FzfLua",
+      opts = {
+        winopts = { fullscreen = true },
+      },
+      init = function()
+        -- Route vim.ui.select (code actions and the like) through fzf, and
+        -- load the plugin only when something first asks for a selection.
+        vim.ui.select = function(...)
+          require("fzf-lua").register_ui_select()
+          return vim.ui.select(...)
+        end
+      end,
+      keys = {
+        { "<Leader>f", "<Cmd>FzfLua files<CR>", desc = "Find files" },
+        { "<Leader>/", "<Cmd>FzfLua live_grep<CR>", desc = "Search in files" },
+        { "<Leader>b", "<Cmd>FzfLua buffers<CR>", desc = "Find buffers" },
+        { "<Leader>h", "<Cmd>FzfLua helptags<CR>", desc = "Find help" },
+        { "<Leader>d", "<Cmd>FzfLua diagnostics_workspace<CR>", desc = "Find diagnostics" },
+        { "<Leader>r", "<Cmd>FzfLua resume<CR>", desc = "Reopen the last picker" },
+      },
+    },
+
+    -- ----------------------------------------------------------- file tree
+    {
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v3.x",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+        "nvim-tree/nvim-web-devicons", -- file type icons; needs a Nerd Font
+      },
+      cmd = "Neotree",
+      keys = {
+        -- the tree of the working directory, with the cursor on the file
+        -- being edited
+        { "<Leader>e", "<Cmd>Neotree toggle reveal<CR>", desc = "File tree" },
+      },
+      init = function()
+        -- `nvim some/dir` should show the tree as well. The plugin is loaded
+        -- on demand, so load it right away in that one case.
+        local arg = vim.fn.argv(0)
+        if vim.fn.argc() == 1 and type(arg) == "string" and vim.fn.isdirectory(arg) == 1 then
+          require("neo-tree")
+        end
+      end,
+      opts = {
+        window = {
+          position = "float", -- a dialog like the picker, not a sidebar
+          popup = { size = { width = "90%", height = "90%" } },
+        },
+        filesystem = {
+          hijack_netrw_behavior = "open_current",
+          use_libuv_file_watcher = true, -- pick up changes made outside Neovim
+          filtered_items = {
+            -- dotfiles matter in most repositories (and are the whole point
+            -- of this one); only keep the noise out.
+            hide_dotfiles = false,
+            hide_gitignored = true,
+            hide_by_name = { ".git" },
+          },
+        },
+      },
+    },
+
+    -- ----------------------------------------------------- syntax and LSP
+    {
+      -- Installs tree-sitter parsers. Building one needs the `tree-sitter`
+      -- CLI and a C compiler; without the CLI only the parsers shipped with
+      -- Neovim (lua, markdown, vim, ...) are highlighted this way.
+      "nvim-treesitter/nvim-treesitter",
+      branch = "main",
+      lazy = false, -- the plugin does not support lazy loading
+      build = ":TSUpdate",
+      config = function()
+        local ts = require("nvim-treesitter")
+        local can_install = vim.fn.executable("tree-sitter") == 1
+        local available = can_install and ts.get_available() or {}
+
+        vim.api.nvim_create_autocmd("FileType", {
+          group = vim.api.nvim_create_augroup("dotfiles_treesitter", { clear = true }),
+          callback = function(ev)
+            local lang = vim.treesitter.language.get_lang(ev.match)
+            if not lang then
+              return
+            end
+            if vim.treesitter.language.add(lang) then
+              vim.treesitter.start(ev.buf, lang)
+            elseif vim.list_contains(available, lang) then
+              -- first time this language is opened: fetch its parser, then
+              -- highlight the buffer that asked for it.
+              ts.install(lang):await(function()
+                if vim.api.nvim_buf_is_valid(ev.buf) and vim.treesitter.language.add(lang) then
+                  vim.treesitter.start(ev.buf, lang)
+                end
+              end)
+            end
+          end,
+        })
+      end,
+    },
+    { "neovim/nvim-lspconfig" }, -- server definitions; enabled in config/lsp.lua
+
+    -- ---------------------------------------------------------------- misc
     {
       -- switches back to the ASCII input method when leaving insert mode.
       -- The plugin picks the switcher per OS (macism on macOS, im-select.exe
@@ -77,12 +221,14 @@ require("lazy").setup({
       end,
       opts = {},
     },
-    { "kylechui/nvim-surround", event = "VeryLazy", opts = {} },
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "catppuccin-latte" } },
   -- automatically check for plugin updates
   checker = { enabled = true },
+  -- keep the lockfile in this repository instead of stdpath("config"), so
+  -- every system that loads this config (WSL and Windows share this
+  -- directory) pins the same plugin versions.
+  lockfile = debug.getinfo(1, "S").source:match("@?(.*)[/\\]config[/\\]") .. "/lazy-lock.json",
 })
