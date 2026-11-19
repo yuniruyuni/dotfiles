@@ -106,6 +106,18 @@ require("lazy").setup({
       cmd = "FzfLua",
       opts = {
         winopts = { fullscreen = true },
+        files = {
+          -- Only files that can be edited as text: instead of listing names
+          -- (`rg --files`), let rg look into each file and print those with
+          -- a line in them. rg skips binary files (anything with a NUL
+          -- byte), as it does when searching. That leaves out empty files,
+          -- which fd adds. rg must not find a pipe on stdin, or it searches
+          -- that instead of the directory. (The rest is shell syntax: cmd.exe
+          -- on Windows, sh elsewhere.)
+          cmd = 'rg --files-with-matches --color=never --hidden --glob "!.git" ""'
+            .. (vim.fn.has("win32") == 1 and " <NUL & " or " </dev/null ; ")
+            .. "fd --color=never --hidden --exclude .git --type file --type empty",
+        },
       },
       init = function()
         -- Route vim.ui.select (code actions and the like) through fzf, and
