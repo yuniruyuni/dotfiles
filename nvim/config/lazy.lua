@@ -134,6 +134,59 @@ require("lazy").setup({
         { "<Leader>h", "<Cmd>FzfLua helptags<CR>", desc = "Find help" },
         { "<Leader>d", "<Cmd>FzfLua diagnostics_workspace<CR>", desc = "Find diagnostics" },
         { "<Leader>r", "<Cmd>FzfLua resume<CR>", desc = "Reopen the last picker" },
+        {
+          -- Pick a repository that `ghq` knows and work on it in a tab of
+          -- its own: the tab's working directory (`:tcd`) is the
+          -- repository, so <Leader>f and <Leader>/ look there.
+          "<Leader>p",
+          function()
+            local roots = vim.fn.systemlist({ "ghq", "root", "--all" })
+            local paths = vim.fn.systemlist({ "ghq", "list", "--full-path" })
+            if vim.v.shell_error ~= 0 or #paths == 0 then
+              vim.notify("ghq lists no repositories", vim.log.levels.WARN)
+              return
+            end
+            -- Show the names without the root in front (github.com/a/b).
+            local norm = function(path)
+              return (vim.trim(path):gsub("\\", "/"):gsub("/$", ""))
+            end
+            local dirs, names = {}, {}
+            for _, path in ipairs(paths) do
+              local dir, name = norm(path), nil
+              for _, root in ipairs(roots) do
+                root = norm(root) .. "/"
+                if dir:sub(1, #root):lower() == root:lower() then
+                  name = dir:sub(#root + 1)
+                end
+              end
+              name = dirs[name or dir] and dir or name or dir
+              dirs[name] = dir
+              names[#names + 1] = name
+            end
+            table.sort(names)
+            require("fzf-lua").fzf_exec(names, {
+              prompt = "Repository> ",
+              actions = {
+                ["default"] = function(selected)
+                  local dir = selected[1] and dirs[selected[1]]
+                  if not dir then
+                    return
+                  end
+                  -- A tab with nothing in it yet is used as it is.
+                  local blank = #vim.api.nvim_tabpage_list_wins(0) == 1
+                    and vim.api.nvim_buf_get_name(0) == ""
+                    and not vim.bo.modified
+                    and vim.bo.buftype == ""
+                  if not blank then
+                    vim.cmd.tabnew()
+                  end
+                  vim.cmd.tcd(vim.fn.fnameescape(dir))
+                end,
+              },
+            })
+          end,
+          desc = "Open a repository in a new tab",
+        },
       },
     },
 
